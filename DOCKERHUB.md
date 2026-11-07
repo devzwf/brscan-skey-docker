@@ -1,10 +1,17 @@
 # brscan-skey
 
-[![Version](https://img.shields.io/docker/v/devzwf/brscan-skey?sort=semver&logo=docker&label=version)](https://hub.docker.com/r/devzwf/brscan-skey/tags)
-[![Pulls](https://img.shields.io/docker/pulls/devzwf/brscan-skey?logo=docker)](https://hub.docker.com/r/devzwf/brscan-skey)
-[![Size](https://img.shields.io/docker/image-size/devzwf/brscan-skey?sort=semver&label=size)](https://hub.docker.com/r/devzwf/brscan-skey/tags)
-[![GitHub](https://img.shields.io/badge/source-GitHub-181717?logo=github)](https://github.com/devzwf/brscan-skey-docker)
-[![License](https://img.shields.io/github/license/devzwf/brscan-skey-docker)](https://github.com/devzwf/brscan-skey-docker/blob/main/LICENSE)
+| [![Version][b-ver]][l-tags] | [![Pulls][b-pulls]][l-hub] | [![Size][b-size]][l-tags] | [![GitHub][b-gh]][l-gh] | [![License][b-lic]][l-lic] |
+|---|---|---|---|---|
+
+[b-ver]: https://img.shields.io/docker/v/devzwf/brscan-skey?sort=semver&logo=docker&label=version
+[b-pulls]: https://img.shields.io/docker/pulls/devzwf/brscan-skey?logo=docker
+[b-size]: https://img.shields.io/docker/image-size/devzwf/brscan-skey?sort=semver&label=size
+[b-gh]: https://img.shields.io/badge/source-GitHub-181717?logo=github
+[b-lic]: https://img.shields.io/github/license/devzwf/brscan-skey-docker
+[l-tags]: https://hub.docker.com/r/devzwf/brscan-skey/tags
+[l-hub]: https://hub.docker.com/r/devzwf/brscan-skey
+[l-gh]: https://github.com/devzwf/brscan-skey-docker
+[l-lic]: https://github.com/devzwf/brscan-skey-docker/blob/main/LICENSE
 
 Press **SCAN → Scan to PC** on a Brother network scanner and get a **multi-page PDF** in a folder, such as the Paperless-ngx `consume` folder or a share.
 
