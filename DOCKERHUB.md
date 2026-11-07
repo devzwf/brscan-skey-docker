@@ -24,7 +24,7 @@ Use it on Brother models without a "Scan to FTP / Network" menu (many North Amer
 | Tag | Description |
 |---|---|
 | `latest` | Latest release |
-| `1.0`, `1.0.0` | Pinned version, see the [changelog](https://github.com/devzwf/brscan-skey-docker/blob/main/CHANGELOG.md) |
+| `1.0`, `1.0.1` | Pinned version, see the [changelog](https://github.com/devzwf/brscan-skey-docker/blob/main/CHANGELOG.md) |
 
 Platform: **linux/amd64** only, because Brother ships x86 drivers only. Every tag is rebuilt weekly for Debian security updates.
 

@@ -48,6 +48,14 @@ jobs:
           docker exec ci-$GITHUB_RUN_ID pgrep -x brscan-skey-exe
           docker exec ci-$GITHUB_RUN_ID grep -q "^user=brscan$" /opt/brother/scanner/brscan-skey/brscan-skey.config
 
+      - name: Duplicate event is ignored while a scan runs
+        run: |
+          docker exec -d ci-$GITHUB_RUN_ID flock /tmp/scan.lock sleep 20
+          sleep 1
+          docker exec ci-$GITHUB_RUN_ID timeout 10 bash /opt/scan/scantofile.sh 'brother4:net1;dev0'
+          sleep 1
+          docker logs ci-$GITHUB_RUN_ID 2>&1 | grep -q "ignored: duplicate button event"
+
       - name: PDF assembly (gray, colour, black & white)
         run: |
           docker exec ci-$GITHUB_RUN_ID python3 -I -c "

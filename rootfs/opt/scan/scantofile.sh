@@ -14,9 +14,13 @@ case "${SCAN_PAGE_SIZE,,}" in
 esac
 W="${SCAN_WIDTH_MM:-$W}"; H="${SCAN_HEIGHT_MM:-$H}"
 
-# One scan at a time
+# One scan at a time. The device is busy while scanning, so an event that
+# arrives during a scan is a duplicate (seen in practice): drop it.
 exec 9>/tmp/scan.lock
-flock 9
+if ! flock -n 9; then
+    log "ignored: duplicate button event while a scan is running"
+    exit 0
+fi
 
 WORK=$(mktemp -d /tmp/scan.XXXXXX)
 trap 'rm -rf "$WORK"' EXIT
