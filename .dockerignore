@@ -1,0 +1,5 @@
+.git
+.gitea
+*.md
+!README.md
+unraid

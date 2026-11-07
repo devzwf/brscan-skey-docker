@@ -1,0 +1,3 @@
+#!/bin/sh
+# Models supported by the brscan4 backend
+cut -d'"' -f2 /opt/brother/scanner/brscan4/models4/*.ini | grep -v '^0x' | sort -u

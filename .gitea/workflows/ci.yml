@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    name: Build & smoke test
+    runs-on: ubuntu-latest
+    env:
+      IMG: brscan-skey:ci-${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Shell syntax
+        run: |
+          for f in rootfs/opt/scan/*.sh; do bash -n "$f"; done
+          python3 -m py_compile rootfs/opt/scan/topdf.py
+
+      - name: Build
+        run: docker build --build-arg VERSION="$(cat VERSION)-ci" -t "$IMG" .
+
+      - name: Refuses to start without SCANNER_IP
+        run: |
+          if docker run --rm "$IMG" > /tmp/out.txt 2>&1; then
+            echo "❌ the container started without SCANNER_IP"; exit 1
+          fi
+          grep -q "SCANNER_IP is required" /tmp/out.txt
+
+      - name: Refuses an unknown model
+        run: |
+          if timeout 20 docker run --rm -e SCANNER_IP=192.0.2.1 -e SCANNER_MODEL=FOO-1234 "$IMG" > /tmp/out.txt 2>&1; then
+            echo "❌ unknown model accepted"; exit 1
+          fi
+          grep -q "is not supported by brscan4" /tmp/out.txt
+          docker run --rm --entrypoint list-models "$IMG" | grep -qx DCP-L2550DW
+
+      - name: Starts with a valid configuration
+        run: |
+          # 192.0.2.1 = TEST-NET-1: nothing answers, the daemon must still run
+          docker run -d --name ci-$GITHUB_RUN_ID -e SCANNER_IP=192.0.2.1 -e SCANNER_MODEL=DCP-L2550DW "$IMG"
+          sleep 8
+          docker logs ci-$GITHUB_RUN_ID
+          test "$(docker inspect -f '{{.State.Running}}' ci-$GITHUB_RUN_ID)" = true
+          docker exec ci-$GITHUB_RUN_ID pgrep -x brscan-skey-exe
+          docker exec ci-$GITHUB_RUN_ID grep -q "^user=brscan$" /opt/brother/scanner/brscan-skey/brscan-skey.config
+
+      - name: PDF assembly (gray, colour, black & white)
+        run: |
+          docker exec ci-$GITHUB_RUN_ID python3 -I -c "
+          from PIL import Image
+          Image.new('L',(2550,3300),200).save('/tmp/p1.tif',dpi=(300,300))
+          Image.new('RGB',(2550,3300),(200,100,50)).save('/tmp/p2.tif',dpi=(300,300))
+          Image.new('1',(2550,3300),1).save('/tmp/p3.tif',dpi=(300,300))"
+          docker exec ci-$GITHUB_RUN_ID python3 -I /opt/scan/topdf.py /tmp/out.pdf /tmp/p1.tif /tmp/p2.tif /tmp/p3.tif
+          docker exec ci-$GITHUB_RUN_ID python3 -I -c "
+          import re; d=open('/tmp/out.pdf','rb').read()
+          n=len(re.findall(rb'/Type ?/Page[^s]', d)); box=re.findall(rb'/MediaBox ?\[ ?0 0 ([\d.]+) ([\d.]+)', d)
+          print(n, 'pages', box); assert n==3, n
+          assert all(abs(float(w)-612)<1 and abs(float(h)-792)<1 for w,h in box), box"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker rm -f ci-$GITHUB_RUN_ID >/dev/null 2>&1 || true
+          docker rmi "$IMG" >/dev/null 2>&1 || true
