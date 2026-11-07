@@ -1,4 +1,33 @@
-# brscan-skey
+<p align="center">
+  <img src="assets/logo.png" alt="brscan-skey logo" width="128" />
+</p>
+
+<h1 align="center">brscan-skey</h1>
+
+<p align="center">
+  <b>Brother "Scan to PC" button → multi-page PDF in a folder.</b><br/>
+  Made for Paperless-ngx, works with any folder. For models without Scan to FTP / Network.
+</p>
+
+<p align="center">
+  <a href="https://hub.docker.com/r/devzwf/brscan-skey" target="_blank"><img src="https://img.shields.io/docker/v/devzwf/brscan-skey?sort=semver&logo=docker&label=Docker" alt="Docker image version" /></a>
+  <a href="https://hub.docker.com/r/devzwf/brscan-skey" target="_blank"><img src="https://img.shields.io/docker/pulls/devzwf/brscan-skey?logo=docker&label=Pulls" alt="Docker pulls" /></a>
+  <a href="https://hub.docker.com/r/devzwf/brscan-skey/tags" target="_blank"><img src="https://img.shields.io/docker/image-size/devzwf/brscan-skey?sort=semver&label=Size" alt="Image size" /></a>
+  <img src="https://img.shields.io/badge/arch-amd64-informational" alt="Architecture: amd64" />
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/devzwf/brscan-skey-docker?label=License" alt="License: MIT" /></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/🔶-Changelog-blue" alt="Changelog" /></a>
+  <a href="https://ko-fi.com/devzwf" target="_blank"><img src="https://img.shields.io/badge/%E2%98%95-Buy%20me%20a%20coffee-red" alt="Buy me a coffee" /></a>
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#requirements">Requirements</a> ·
+  <a href="#settings">Settings</a> ·
+  <a href="#troubleshooting">Troubleshooting</a> ·
+  <a href="https://github.com/devzwf/brscan-skey-docker/issues">Issues</a>
+</p>
+
+---
 
 Press **SCAN → Scan to PC** on a Brother network scanner and get a **multi-page PDF** in a folder: the Paperless-ngx `consume` folder, a Nextcloud folder, an SMB share, and so on.
 
@@ -9,7 +38,6 @@ This is useful on models that have no "Scan to FTP / Network / SharePoint" menu 
 - Writes each file atomically, so a watcher such as Paperless never picks up a half-written file. The owner is configurable (`PUID`/`PGID`, default `99:100` for Unraid).
 - Runs on `linux/amd64` only, because Brother publishes x86 drivers only.
 
-Image: [`devzwf/brscan-skey`](https://hub.docker.com/r/devzwf/brscan-skey)
 
 ## Requirements
 
@@ -94,4 +122,4 @@ CI (Gitea Actions): `secrets.yml` runs gitleaks on the full history, `ci.yml` bu
 
 ## License
 
-The files in this repository are under the [MIT](LICENSE) license. The Brother drivers keep their own license; see [THIRD_PARTY.md](THIRD_PARTY.md). This project is not affiliated with Brother.
+The files in this repository are under the [MIT](LICENSE) license. The Brother drivers keep their own license; see [THIRD_PARTY.md](THIRD_PARTY.md). This project is not affiliated with or endorsed by Brother Industries, Ltd. "Brother" is a trademark of its owner.
