@@ -1,5 +1,7 @@
 # Third-party software
 
+The MIT license in [LICENSE](LICENSE) covers the files of this repository only. The Brother drivers downloaded during the image build remain the property of Brother Industries, Ltd. and are distributed under the Brother License Agreement.
+
 | Component | Version | Source | License |
 |---|---|---|---|
 | brscan4 (SANE backend) | 0.4.11-1 | https://download.brother.com/welcome/dlf105200/ | Brother License Agreement |
