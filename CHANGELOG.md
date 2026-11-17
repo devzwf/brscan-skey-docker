@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.0.2] - 2026-11-16
+- Accept older models that brscan4 lists only in `Brsane4.ini` (e.g. DCP-7065DN), and show them in `list-models` ([#1](https://github.com/devzwf/brscan-skey-docker/issues/1), thanks @RumbleInTheJungle).
+
 ## [1.0.1] - 2026-11-07
 - Ignore a duplicate button event received while a scan is already running (it produced an extra blank page from the glass).
 

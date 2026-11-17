@@ -1,3 +1,5 @@
 #!/bin/sh
 # Models supported by the brscan4 backend
-cut -d'"' -f2 /opt/brother/scanner/brscan4/models4/*.ini | grep -v '^0x' | sort -u
+# (newer models in models4/*.ini, older ones such as DCP-7065DN only in Brsane4.ini)
+grep -h '"' /opt/brother/scanner/brscan4/models4/*.ini /opt/brother/scanner/brscan4/Brsane4.ini \
+  | cut -d'"' -f2 | grep -v '^0x' | sort -u

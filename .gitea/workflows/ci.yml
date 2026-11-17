@@ -37,6 +37,8 @@ jobs:
           fi
           grep -q "is not supported by brscan4" /tmp/out.txt
           docker run --rm --entrypoint list-models "$IMG" | grep -qx DCP-L2550DW
+          # older model listed only in Brsane4.ini (issue #1)
+          docker run --rm --entrypoint list-models "$IMG" | grep -qx DCP-7065DN
 
       - name: Starts with a valid configuration
         run: |

@@ -12,7 +12,9 @@ log "version $(cat /etc/brscan-skey-version 2>/dev/null || echo dev)"
 [ -d "$OUTPUT_DIR" ]        || die "OUTPUT_DIR $OUTPUT_DIR does not exist (mount a volume there)"
 
 # Model must be known to brscan4 (otherwise brsaneconfig4 accepts it but scanning fails)
-if ! grep -qhF "\"$SCANNER_MODEL\"" /opt/brother/scanner/brscan4/models4/*.ini; then
+# Newer models are listed in models4/*.ini, older ones (e.g. DCP-7065DN) only in Brsane4.ini.
+if ! grep -qhF "\"$SCANNER_MODEL\"" /opt/brother/scanner/brscan4/models4/*.ini \
+                                     /opt/brother/scanner/brscan4/Brsane4.ini; then
     die "model '$SCANNER_MODEL' is not supported by brscan4 (list: docker run --rm --entrypoint list-models devzwf/brscan-skey)"
 fi
 
